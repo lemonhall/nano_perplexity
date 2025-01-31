@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易AI搜索引擎</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #input-container {
+            display: flex;
+            padding: 10px;
+        }
+
+        #question-input {
+            flex: 1;
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        #send-button {
+            padding: 5px 10px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+    <div id="chat-container">
+        <!-- 聊天记录将显示在这里 -->
+    </div>
+    <div id="input-container">
+        <input type="text" id="question-input" placeholder="输入你的问题">
+        <button id="send-button">发送</button>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const questionInput = document.getElementById('question-input');
+        const sendButton = document.getElementById('send-button');
+
+        // 支持回车发送
+        questionInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+
+        sendButton.addEventListener('click', async () => {
+            const question = questionInput.value.trim();
+            if (question === '') return;
+
+            // 显示用户的问题
+            const userMessage = document.createElement('p');
+            userMessage.textContent = `你: ${question}`;
+            chatContainer.appendChild(userMessage);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // 显示加载提示
+            const loadingMessage = document.createElement('p');
+            loadingMessage.textContent = 'AI正在思考中...';
+            chatContainer.appendChild(loadingMessage);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            try {
+                // 构建带有查询参数的 URL
+                const apiUrl = `/ask?query=${encodeURIComponent(question)}`;
+                // 使用 POST 方法调用后端接口
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                // 移除加载提示
+                chatContainer.removeChild(loadingMessage);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP 错误! 状态码: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const answer = data.response;
+
+                // 将 Markdown 转换为 HTML
+                const htmlAnswer = marked.parse(answer);
+
+                // 显示 AI 的回答
+                const aiMessage = document.createElement('div');
+                aiMessage.innerHTML = `AI: <br>${htmlAnswer}`;
+                chatContainer.appendChild(aiMessage);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            } catch (error) {
+                // 移除加载提示
+                if (loadingMessage.parentNode) {
+                    chatContainer.removeChild(loadingMessage);
+                }
+                // 显示错误信息
+                let errorMessageText;
+                if (error instanceof TypeError) {
+                    errorMessageText = `网络错误，请检查网络连接: ${error.message}`;
+                } else if (error instanceof SyntaxError) {
+                    errorMessageText = `数据解析错误: ${error.message}`;
+                } else {
+                    errorMessageText = `错误: ${error.message}`;
+                }
+                const errorMessage = document.createElement('p');
+                errorMessage.textContent = errorMessageText;
+                chatContainer.appendChild(errorMessage);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            // 清空输入框
+            questionInput.value = '';
+        });
+    </script>
+</body>
+
+</html>
