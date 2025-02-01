@@ -16,8 +16,13 @@ from fastapi.responses import FileResponse
 
 app = FastAPI()
 
+# 获取脚本所在的目录
+base_dir = os.path.dirname(os.path.abspath(__file__))
+# 构建静态文件目录的绝对路径
+static_dir = os.path.join(base_dir, 'static')
+
 # 挂载静态文件目录
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 # Default configuration and Prompts
 NUM_SEARCH = 10  # Number of links to parse from Google
