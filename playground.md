@@ -1,20 +1,19 @@
-# 特朗普又要加关税了么？
+# 大S去世了么？
 
 ## Sources
-1. https://www.cnbc.com/2025/01/31/trump-china-tariffs-manufacturers-prepare-for-higher-costs.html
-2. https://www.whitehouse.gov/fact-sheets/2025/02/fact-sheet-president-donald-j-trump-imposes-tariffs-on-imports-from-canada-mexico-and-china/
-3. https://www.bbc.com/news/articles/c627nx42xelo
-4. https://www.theguardian.com/us-news/2025/jan/31/trump-tariffs-canada-mexico-china
-5. https://www.google.com.hk/search?num=32
-6. https://www.cnn.com/2025/01/31/politics/trump-tariffs-mexico-canada-china/index.html
-7. https://www.npr.org/2025/02/01/g-s1-46010/trump-tariffs-mexico-canada-and-china-imports
+1. https://www.thepaper.cn/newsDetail_forward_30075387
+2. https://news.sina.com.cn/c/2025-02-03/doc-ineiemnk5238947.shtml
+3. https://m.163.com/news/article/JNFI4CJP05169T2A.html
+4. https://news.china.com/socialgd/10000169/20250203/47925998_all.html
+5. https://news.sina.com.cn/zx/2025-02-03/doc-ineiertz7444747.shtml
 
 ## Answer
-是的，美国总统特朗普已宣布对加拿大、墨西哥和中国实施新的关税措施，具体如下：
+是的，大S（徐熙媛）已确认去世。以下是关于此事的详细信息：
 
-- **加拿大和墨西哥**：大部分进口商品将面临25%的关税，而加拿大能源产品则适用10%的较低税率[citation number](https://www.bbc.com/news/articles/c627nx42xelo)[citation number](https://www.theguardian.com/us-news/2025/jan/31/trump-tariffs-canada-mexico-china)。
-- **中国**：进口商品将加征10%的关税[citation number](https://www.bbc.com/news/articles/c627nx42xelo)[citation number](https://www.npr.org/2025/02/01/g-s1-46010/trump-tariffs-mexico-canada-and-china-imports)。
-- **实施时间**：这些关税措施已于2月1日生效[citation number](https://www.cnn.com/2025/01/31/politics/trump-tariffs-mexico-canada-china/index.html)。
+- 大S于2025年2月3日因流感并发肺炎在日本不幸去世，享年48岁。她当时正在与家人一同在日本旅游[1][2][3]。
+- 大S的家属通过社交媒体发文证实了这一消息，并表达了对她的深切怀念与感激[1][2]。
+- 她的妹妹小S也公开证实了这一噩耗，表示感恩能够成为她的姊妹，并承诺永远怀念她[2][3]。
+- 大S是中国台湾省著名的演员、歌手、主持人和作家，曾出演《流星花园》《转角遇到爱》等多部影视作品，给观众留下了深刻印象[1][4]。
 
-特朗普表示，此举是为了应对非法移民和毒品走私问题，这些议题是其竞选时的核心承诺[citation number](https://www.bbc.com/news/articles/c627nx42xelo)。加拿大、墨西哥和中国均已表示将对此作出回应[citation number](https://www.theguardian.com/us-news/2025/jan/31/trump-tariffs-canada-mexico-china)。
+这一消息震惊了公众，许多人对其年轻离世感到意外和惋惜[3][5]。
 

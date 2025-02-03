@@ -14,6 +14,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from ranker_by_deepseek_v3_pure_string_function import get_relevance_scores
+from tavily_search_and_format import search_and_format
 
 app = FastAPI()
 
@@ -114,12 +115,14 @@ def fetch_webpage(url, timeout):
 
 def parse_google_results(query, num_search=NUM_SEARCH, search_time_limit=SEARCH_TIME_LIMIT):
     """Perform a Google search and parse the content of the top results."""
-    urls = search(query, num_results=num_search)
-    max_workers = os.cpu_count() or 1  # Fallback to 1 if os.cpu_count() returns None
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_url = {executor.submit(fetch_webpage, url, search_time_limit): url for url in urls}
-        return {url: page_text for future in as_completed(future_to_url) if (url := future.result()[0]) and (
-                page_text := future.result()[1])}
+    # urls = search(query, num_results=num_search)
+    # max_workers = os.cpu_count() or 1  # Fallback to 1 if os.cpu_count() returns None
+    # with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    #     future_to_url = {executor.submit(fetch_webpage, url, search_time_limit): url for url in urls}
+    #     return {url: page_text for future in as_completed(future_to_url) if (url := future.result()[0]) and (
+    #             page_text := future.result()[1])}
+    result = search_and_format(query)
+    return result
 
 
 # 这里我加入了, encoding='utf-8'，解决了原版的markdown文件输出乱码的问题
@@ -147,7 +150,7 @@ def llm_check_search(query, file_path, msg_history=None, llm_model=LLM_MODEL):
         return None
     else:
         print(f"Performing Google search: {cleaned_response}")
-        search_dic = parse_google_results(cleaned_response)
+        search_dic = parse_google_results(query)
         # Format search result in dic into markdown format
         search_result_md = "\n".join([f"{number + 1}. {link}" for number, link in enumerate(search_dic.keys())])
         save_markdown(f"## Sources\n{search_result_md}\n\n", file_path)
@@ -161,12 +164,6 @@ def llm_answer(query, file_path, msg_history=None, search_dic=None, llm_model=LL
     if search_dic:
         context_block = "\n".join(
             [f"[{i + 1}]({url}): {content[:max_content]}" for i, (url, content) in enumerate(search_dic.items())])
-        
-        #这是我自己添加的逻辑，调用了v3给大于8.0相关度的条目才输出
-        result = get_relevance_scores(query, context_block)
-        context_block = result
-        #结束添加的逻辑
-
         prompt = cited_answer_prompt.format(context_block=context_block, query=query)
         system_prompt = system_prompt_cited_answer
     else:
