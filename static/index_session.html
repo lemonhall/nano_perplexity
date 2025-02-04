@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易AI搜索引擎</title>
+    <style>
+        /* 新增样式 */
+        .message {
+            margin: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+    
+        .message.user {
+            background: #e3f2fd;
+            margin-left: auto;
+        }
+    
+        .message.ai {
+            background: #f5f5f5;
+            margin-right: auto;
+        }
+    
+        .message.system {
+            background: #fff3e0;
+            margin: 5px auto;
+            max-width: 60%;
+            text-align: center;
+        }
+    
+        .sender {
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 4px;
+            display: block;
+        }
+    
+        .content {
+            line-height: 1.6;
+        }
+    
+        .loading-dots {
+            display: flex;
+            padding: 8px 0;
+        }
+    
+        .dot {
+            width: 8px;
+            height: 8px;
+            margin: 0 3px;
+            background: #999;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+        }
+    
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+    
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+    
+        @keyframes bounce {
+            0%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+    <div id="chat-container">
+        <!-- 聊天记录将显示在这里 -->
+    </div>
+    <div id="input-container">
+        <input type="text" id="question-input" placeholder="输入你的问题">
+        <button id="send-button">发送</button>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const questionInput = document.getElementById('question-input');
+        const sendButton = document.getElementById('send-button');
+        let currentSessionId = null; // 存储当前会话ID
+    
+        // 新增：创建会话函数
+        async function createSession() {
+            try {
+                const response = await fetch('/create_session', {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                currentSessionId = data.session_id;
+                console.log('New session created:', currentSessionId);
+            } catch (error) {
+                console.error('Session creation failed:', error);
+            }
+        }
+    
+        // 页面加载时自动创建会话
+        window.addEventListener('load', () => {
+            createSession();
+            // 加载历史会话逻辑可以在这里扩展
+        });
+    
+        questionInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+    
+        sendButton.addEventListener('click', async () => {
+            const question = questionInput.value.trim();
+            if (question === '' || !currentSessionId) return;
+    
+            // 显示用户的问题
+            addMessage('user', question);
+    
+            // 显示加载提示
+            const loadingId = showLoading();
+    
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: question,
+                        session_id: currentSessionId
+                    })
+                });
+    
+                removeLoading(loadingId);
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP 错误! 状态码: ${response.status}`);
+                }
+    
+                const data = await response.json();
+                addMessage('ai', data.response);
+
+                // 如果需要显示参考链接
+                if (data.sources && data.sources.length > 0) {
+                    const sourcesHtml = data.sources.map(s => `<a href="${s}" target="_blank">${s}</a>`).join('<br>');
+                    addMessage('system', `参考来源：<br>${sourcesHtml}`);
+                }
+    
+            } catch (error) {
+                removeLoading(loadingId);
+                handleError(error);
+            }
+    
+            questionInput.value = '';
+        });
+    
+        // 新增：统一消息处理函数
+        function addMessage(sender, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            // 添加发送者标识
+            const senderSpan = document.createElement('span');
+            senderSpan.className = 'sender';
+            senderSpan.textContent = sender === 'user' ? '你' : 'AI';
+            messageDiv.appendChild(senderSpan);
+    
+            // 处理Markdown内容
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'content';
+            contentDiv.innerHTML = marked.parse(content);
+            messageDiv.appendChild(contentDiv);
+    
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    
+        // 新增：加载状态管理
+        function showLoading() {
+            const loadingId = Date.now();
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = `loading-${loadingId}`;
+            loadingDiv.className = 'message ai';
+            loadingDiv.innerHTML = `
+                <span class="sender">AI</span>
+                <div class="content">
+                    <div class="loading-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(loadingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return loadingId;
+        }
+    
+        function removeLoading(loadingId) {
+            const element = document.getElementById(`loading-${loadingId}`);
+            if (element) element.remove();
+        }
+    
+        // 错误处理优化
+        function handleError(error) {
+            let errorMessage;
+            if (error.message.includes('401')) {
+                errorMessage = '会话已过期，正在创建新会话...';
+                createSession().then(() => {
+                    addMessage('system', '已创建新会话，请重新提问');
+                });
+            } else if (error.message.includes('404')) {
+                errorMessage = '会话不存在，正在创建新会话...';
+                createSession();
+            } else {
+                errorMessage = `错误: ${error.message}`;
+            }
+            addMessage('system', errorMessage);
+        }
+    </script>
+</body>
+
+</html>
