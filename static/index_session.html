@@ -5,70 +5,140 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>简易AI搜索引擎</title>
-    <style>
-        /* 新增样式 */
-        .message {
-            margin: 10px;
-            padding: 12px;
-            border-radius: 8px;
-            max-width: 80%;
+<style>
+    /* 修改现有样式 */
+    body {
+        padding-bottom: 80px; /* 为底部输入栏留出空间 */
+    }
+
+
+    /* 新增样式 */
+    .message {
+        margin: 10px;
+        padding: 12px;
+        border-radius: 8px;
+        max-width: 80%;
+    }
+
+    .message.user {
+        background: #e3f2fd;
+        margin-left: auto;
+    }
+
+    .message.ai {
+        background: #f5f5f5;
+        margin-right: auto;
+    }
+
+    .message.system {
+        background: #fff3e0;
+        margin: 5px auto;
+        max-width: 60%;
+        text-align: center;
+    }
+
+    .sender {
+        font-weight: bold;
+        color: #666;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    .content {
+        line-height: 1.6;
+    }
+
+    .loading-dots {
+        display: flex;
+        padding: 8px 0;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+        margin: 0 3px;
+        background: #999;
+        border-radius: 50%;
+        animation: bounce 1.4s infinite;
+    }
+
+    .dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+    @keyframes bounce {
+        0%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-10px); }
+    }    
+
+    #input-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 15px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    #question-input {
+        width: 60%;
+        max-width: 800px;
+        padding: 12px 20px;
+        border-radius: 25px;
+        border: 2px solid #e0e0e0;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    #question-input:focus {
+        outline: none;
+        border-color: #4A90E2;
+        box-shadow: 0 0 8px rgba(74,144,226,0.3);
+    }
+
+    #send-button {
+        padding: 12px 25px;
+        border-radius: 25px;
+        border: none;
+        background: #4A90E2;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    #send-button:hover {
+        background: #357ABD;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+
+
+    /* 新增聊天容器底部间距 */
+    #chat-container {
+        padding-bottom: 100px; /* 防止消息被输入栏遮挡 */
+    }
+
+    @media (prefers-color-scheme: dark) {
+        #input-container {
+            background: #2d2d2d;
         }
-    
-        .message.user {
-            background: #e3f2fd;
-            margin-left: auto;
+        #question-input {
+            background: #1a1a1a;
+            border-color: #404040;
+            color: white;
         }
-    
-        .message.ai {
-            background: #f5f5f5;
-            margin-right: auto;
-        }
-    
-        .message.system {
-            background: #fff3e0;
-            margin: 5px auto;
-            max-width: 60%;
-            text-align: center;
-        }
-    
-        .sender {
-            font-weight: bold;
-            color: #666;
-            margin-bottom: 4px;
-            display: block;
-        }
-    
-        .content {
-            line-height: 1.6;
-        }
-    
-        .loading-dots {
-            display: flex;
-            padding: 8px 0;
-        }
-    
-        .dot {
-            width: 8px;
-            height: 8px;
-            margin: 0 3px;
-            background: #999;
-            border-radius: 50%;
-            animation: bounce 1.4s infinite;
-        }
-    
-        .dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-    
-        .dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-    
-        @keyframes bounce {
-            0%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-        }
-    </style>
+    }
+</style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
