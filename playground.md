@@ -1,19 +1,18 @@
 # 大S去世了么？
 
 ## Sources
-1. https://www.thepaper.cn/newsDetail_forward_30075387
-2. https://news.sina.com.cn/c/2025-02-03/doc-ineiemnk5238947.shtml
-3. https://m.163.com/news/article/JNFI4CJP05169T2A.html
-4. https://news.china.com/socialgd/10000169/20250203/47925998_all.html
-5. https://news.sina.com.cn/zx/2025-02-03/doc-ineiertz7444747.shtml
+1. https://news.sina.com.cn/c/2025-02-03/doc-ineiemnk5238947.shtml
+2. https://m.thepaper.cn/newsDetail_forward_30075848
+3. https://news.qq.com/rain/a/20250203A05U8H00
+4. https://news.ifeng.com/c/8gfY9zoJ3Nh
+5. https://news.fznews.com.cn/gngj/20250203/g594z7GBW8.shtml
 
 ## Answer
-是的，大S（徐熙媛）已确认去世。以下是关于此事的详细信息：
+是的，大S（徐熙媛）已去世。以下是相关细节：
 
-- 大S于2025年2月3日因流感并发肺炎在日本不幸去世，享年48岁。她当时正在与家人一同在日本旅游[1][2][3]。
-- 大S的家属通过社交媒体发文证实了这一消息，并表达了对她的深切怀念与感激[1][2]。
-- 她的妹妹小S也公开证实了这一噩耗，表示感恩能够成为她的姊妹，并承诺永远怀念她[2][3]。
-- 大S是中国台湾省著名的演员、歌手、主持人和作家，曾出演《流星花园》《转角遇到爱》等多部影视作品，给观众留下了深刻印象[1][4]。
+- **时间和地点**：大S于2025年春节期间在日本旅游时去世[citation number](website link)[1](https://news.sina.com.cn/c/2025-02-03/doc-ineiemnk5238947.shtml)。
+- **原因**：她因感染流感并发肺炎不幸离世，享年48岁[1](https://news.sina.com.cn/c/2025-02-03/doc-ineiemnk5238947.shtml)[3](https://news.qq.com/rain/a/20250203A05U8H00)。
+- **家属证实**：大S的家人和妹妹小S均已确认这一消息，并表达了对她的怀念与感激[1](https://news.sina.com.cn/c/2025-02-03/doc-ineiemnk5238947.shtml)[2](https://m.thepaper.cn/newsDetail_forward_30075848)。
 
-这一消息震惊了公众，许多人对其年轻离世感到意外和惋惜[3][5]。
+这一消息引发了广泛的关注和悼念。
 
