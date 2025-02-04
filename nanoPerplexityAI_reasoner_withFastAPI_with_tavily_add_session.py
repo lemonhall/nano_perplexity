@@ -54,8 +54,9 @@ MAX_TOKENS = 4096  # Maximum number of tokens LLM generates
 LLM_MODEL = "ep-20250204220334-l2q5g" # V3的模型编码
 
 system_prompt_search = """You are a helpful assistant whose primary goal is to decide if a user's query requires a Google search."""
+
 search_prompt = """
-当前是2025年，再觉得是否需要搜索时，要判断你的知识库内的知识是否过时了，如果过时了，则可以积极的启用Google 搜索；
+当前是2025年，在决策是否需要搜索时，要判断你的知识库内的知识是否过时了，如果过时了，则可以积极的启用Google 搜索；
 Decide if a user's query requires a Google search. You should use Google search for most queries to find the most accurate and updated information. Follow these conditions:
 
 - If the query does not require Google search, you must output "ns", short for no search.
@@ -67,12 +68,15 @@ User Query:
 """
 
 system_prompt_answer = """You are a helpful assistant who is expert at answering user's queries"""
+
+
 answer_prompt = """Generate a response that is informative and relevant to the user's query
 User Query:
 {query}
 """
 
 system_prompt_cited_answer = """You are a helpful assistant who is expert at answering user's queries based on the cited context."""
+
 cited_answer_prompt = """
 Provide a relevant, informative response to the user's query using the given context (search results with [citation number](website link) and brief descriptions).
 
@@ -173,7 +177,7 @@ def llm_check_search(query, file_path, msg_history=None, llm_model=LLM_MODEL):
     response = client.chat.completions.create(
         model=llm_model,
         messages=[{"role": "system", "content": system_prompt_search}, *new_msg_history],
-        max_tokens=30
+        max_tokens=56   #原值是30，我改写长了
     ).choices[0].message.content
 
     # check if the response contains "ns"
