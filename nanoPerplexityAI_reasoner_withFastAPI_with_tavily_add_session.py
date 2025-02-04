@@ -51,7 +51,7 @@ MAX_TOKENS = 4096  # Maximum number of tokens LLM generates
 # 这里我修改成了'deepseek-reasoner'，默认模型的回复里其实有一个字段叫做
 # reasoner，这是openai库最新更新了的东西，但其实对于调用来说，除非你想看<think></think>
 # 标签里的东西，否则其实一行代码都不需要去改动
-LLM_MODEL = 'deepseek-ai/DeepSeek-V3'  # 'gpt-3.5-turbo' #'gpt-4o'
+LLM_MODEL = "ep-20250204220334-l2q5g" # V3的模型编码
 
 system_prompt_search = """You are a helpful assistant whose primary goal is to decide if a user's query requires a Google search."""
 search_prompt = """
@@ -88,13 +88,32 @@ User Query:
 {query}
 """
 
-# 获取环境变量中的 SILICONFLOW API 密钥
-SILICONFLOW_API_KEY = os.getenv('SILICONFLOW_API_KEY')
+# -----------------------------------------------------------------------------
+# 使用 PowerShell
+# 打开 PowerShell（在 “开始” 菜单中搜索 “PowerShell” 并打开）。
+# 要为当前用户设置环境变量，可以使用
+# $env:OPENAI_API_KEY = "your_api_key"
+# 命令。
+# 同样，将"your_api_key"替换为实际的 API 密钥。不过，这种方式设置的环境变量只在当前 PowerShell 会话中有效。
 
-if not SILICONFLOW_API_KEY:
-    raise ValueError("SILICONFLOW API key is not set. Please set the SILICONFLOW_API_KEY environment variable.")
+# 要永久设置环境变量（对于当前用户），可以使用
+# [Environment]::SetEnvironmentVariable("HUOSHAN_API_KEY","your_api_key","User")。
+# 如果要设置系统级别的环境变量（需要管理员权限），可以将最后一个参数改为"Machine"，
+# 例如
+# [Environment]::SetEnvironmentVariable("HUOSHAN_API_KEY","your_api_key","Machine")。
+# Set up OpenAI API key
+# 记得使用以上方法后，需要关闭vscode后重启vscode，之后点击F5运行python脚本的时候才能生效
+HUOSHAN_API_KEY = os.getenv('HUOSHAN_API_KEY')
 
-client = openai.OpenAI(api_key=SILICONFLOW_API_KEY, base_url="https://api.siliconflow.cn/v1")
+
+if not HUOSHAN_API_KEY:
+    raise ValueError("HUOSHAN API key is not set. Please set the HUOSHAN_API_KEY environment variable.")
+
+
+client = openai.OpenAI(
+    api_key = HUOSHAN_API_KEY,
+    base_url = "https://ark.cn-beijing.volces.com/api/v3",
+)
 
 
 def trace_function_factory(start):
