@@ -1,5 +1,11 @@
  https://github.com/Yusuke710/nanoPerplexityAI 
 
+ ![image](https://github.com/user-attachments/assets/1195cdd2-1629-4d15-b434-a7130f9394a9)
+
+ ![image](https://github.com/user-attachments/assets/d26e50ae-d72a-4774-8980-8380720f1657)
+
+
+
 为啥要用这个项目呢？
 
 三个原因：
